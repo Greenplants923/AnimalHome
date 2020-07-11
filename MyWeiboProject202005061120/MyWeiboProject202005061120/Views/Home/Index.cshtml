@@ -1,0 +1,171 @@
+﻿@model IEnumerable<MyWeiboProject202005061120.Models.Posts>
+@using Microsoft.AspNet.Identity
+@using PagedList
+@using PagedList.Mvc
+
+@{
+    ViewBag.Title = "首页";
+}
+
+<div class="jumbotron">
+    <h1>宠屋 - 宠物小屋</h1>
+    <p class="lead">分享宠物的点点滴滴</p>
+</div>
+<script src="@Url.Content("~/Scripts/jquery-1.10.2.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.unobtrusive-ajax.min.js")" type="text/javascript"></script>
+<script type="text/javascript" language="javascript">
+    $(function ()
+    {
+        $('#upload').click(
+            function ()
+            {
+                var url = document.getElementById('nowurl').files[0];
+                formData.append("ReturnUrl", url);
+                $.ajax(
+                    {
+                        type: "POST",    // 默认是GET
+                        url: "/Posts/ReturnByAjax",
+                        data: formData,
+                        async: true,    // 异步
+                        cache: false,   // 不加载缓存
+                        contentType: false,
+                        processData: false,
+                        //error: function () { alert("返回失败！"); },
+                        //success: function (data)
+                        //{
+                        //    $('#MyPhoto').attr("src", "../myUploads/" + data);
+                        //    $('#MyPhoto').css("display", "block");
+                        //    $('#MyPhotoDiv').html("成功上传图片：../myUploads/" + data);
+                        //    $('#Photo').val(data);
+                        //}
+                    });
+            });
+    });
+</script>
+@{string NowUrl = Request.RawUrl; }
+<input type="text" id="nowurl" style="display:none" value=@NowUrl />
+@*style="display:none"*@
+<br />
+<br />
+
+@* 轮播图 *@
+<div class="row">
+    <div id="myCarousel" class="carousel slide col-md-12">
+        <!-- 轮播（Carousel）指标 -->
+        <ol class="carousel-indicators">
+            <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+            <li data-target="#myCarousel" data-slide-to="1"></li>
+            <li data-target="#myCarousel" data-slide-to="2"></li>
+        </ol>
+        <!-- 轮播（Carousel）项目 -->
+        <div class="carousel-inner">
+            <div class="item active">
+                <img src="~/myUploads/lunbo1.png" alt="First slide">
+            </div>
+            <div class="item">
+                <img src="~/myUploads/lunbo2.png" alt="Second slide">
+            </div>
+            <div class="item">
+                <img src="~/myUploads/lunbo3.png" alt="Third slide">
+            </div>
+        </div>
+        <!-- 轮播（Carousel）导航 -->
+        <a class="carousel-control left" href="#myCarousel"
+           data-slide="prev"><span _ngcontent-c3="" aria-hidden="true" class="glyphicon glyphicon-chevron-left"></span></a>
+        <a class="carousel-control right" href="#myCarousel"
+           data-slide="next"><span _ngcontent-c3="" aria-hidden="true" class="glyphicon glyphicon-chevron-right"></span></a>
+    </div>
+</div>
+
+
+@foreach (var item in Model)
+{
+    <div class="col-md-1"></div>
+    <div class="col-md-11" style="border-color: #ff0000;border-bottom-width:5px;margin-bottom:50px;">
+        @*显示用户头像*@
+        @if (item.Users.Photo != null)
+        {
+            <img src="~/myUploads/@item.Users.Photo" style="height:50px;width:50px;display:block,inline" class="img-circle" />
+        }
+        @*显示用户名 对于登录用户，点击用户名可查看用户信息*@
+        @if (Request.IsAuthenticated && User.IsInRole("Admin") == false && User.IsInRole("Advertiser") == false)
+        {
+            <p style="font-size:20px;display:inline;">
+                @Html.ActionLink(item.Users.UserName, "ShowBasicInformation", "Manage", new { id = item.Users.UserId }, htmlAttributes: new { title = "UsersInfo" })
+            </p>
+        }
+        @if (!Request.IsAuthenticated || (Request.IsAuthenticated && (User.IsInRole("Admin") || User.IsInRole("Advertiser"))))
+        {
+            <p style="font-size:20px;display:inline;">
+                @Html.DisplayFor(modelItem => item.Users.UserName)
+            </p>
+        }
+        <br />
+        @*显示动态内容*@
+        <p style="font-size:22px;margin-left:50px;">
+            @Html.DisplayFor(modelItem => item.Body)
+        </p>
+        @*显示动态图片*@
+        <p style="margin-left:50px;">
+            @if (item.Photo != "")
+            {
+                <img src="~/myUploads/@item.Photo" style="height:300px;display:block,inline;" />
+            }
+            @if(item.Photo == "" || item.Photo == null)
+            {
+                @Html.DisplayFor(modelItem => item.Photo)
+            }
+        </p>        
+        <div style="font-size:18px;margin-left:50px;">
+            <p style="display:inline">
+                @*显示动态评论数 点击图标查看动态全部评论*@
+                <img style="display:inline;height:20px;" src="~/myUploads/comments.png" />
+                @Html.DisplayFor(modelItem => item.CommentsNumber)
+                @if (Request.IsAuthenticated && User.IsInRole("Admin") == false && User.IsInRole("Advertiser") == false)
+                {
+                    @Html.ActionLink("评论", "Details", "Posts", new { id = item.Id }, htmlAttributes: new { title = "CreateComment" })
+                }
+            </p>
+            <p style="display:inline;margin-left:20px;">
+                @*显示动态点赞数 点击图标可以给动态点赞*@
+                <img style="display:inline;height:20px;" src="~/myUploads/likes.png" />
+                @Html.DisplayFor(modelItem => item.LikesNumber)
+                @if (Request.IsAuthenticated && User.IsInRole("Admin") == false && User.IsInRole("Advertiser") == false)
+                {
+                    if (item.IsLiked(User.Identity.GetUserId(), item.Id))
+                    {
+                        @Html.ActionLink("取消点赞", "DeleteLike", "Posts", new { id = item.Id }, htmlAttributes: new { title = "DeleteLike" })
+                    }
+                    if (!item.IsLiked(User.Identity.GetUserId(), item.Id))
+                    {
+                        @Html.ActionLink("点赞", "CreateLike", "Posts", new { id = item.Id }, htmlAttributes: new { title = "CreateLike" })
+                    }
+                }
+            </p>
+            <p style="display:inline;margin-left:20px;">
+                @*显示动态发布时间*@
+                @Html.DisplayFor(modelItem => item.TimeStamp)
+            </p>
+        </div>
+        <div style="font-size:18px;margin-left:50px;">
+            @*显示发布该动态的用户可以对动态的操作 Vip用户可以编辑*@
+            @if (Request.IsAuthenticated && item.Users.UserId == User.Identity.GetUserId())
+            {
+                if (User.IsInRole("VipUser"))
+                {
+                    <p style="display:inline;">
+                        @Html.ActionLink("编辑", "Edit", "Posts", new { id = item.Id }, htmlAttributes: new { title = "EditPost" })
+                    </p>
+                }
+                <p style="display:inline;margin-left:30px;">
+                    @Html.ActionLink("删除", "Delete", "Posts", new { id = item.Id }, htmlAttributes: new { title = "DeletePost" })
+                </p>
+            }
+        </div>
+    </div>
+}
+
+<div class="col-md-1"></div>
+<div class="col-md-11">
+    @Html.PagedListPager((IPagedList)Model, page => Url.Action("Index", new { page }))
+</div>

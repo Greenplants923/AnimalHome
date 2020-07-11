@@ -1,0 +1,331 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="myWeiboDB202005061120Model.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="myWeiboDB202005061120ModelStoreContainer">
+    <EntitySet Name="UsersSet" EntityType="myWeiboDB202005061120Model.Store.UsersSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="AnimalsSet" EntityType="myWeiboDB202005061120Model.Store.AnimalsSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="PostsSet" EntityType="myWeiboDB202005061120Model.Store.PostsSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="LikesSet" EntityType="myWeiboDB202005061120Model.Store.LikesSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="CommentsSet" EntityType="myWeiboDB202005061120Model.Store.CommentsSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="FollowerSet" EntityType="myWeiboDB202005061120Model.Store.FollowerSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="FollowedSet" EntityType="myWeiboDB202005061120Model.Store.FollowedSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="SpecialFollowerSet" EntityType="myWeiboDB202005061120Model.Store.SpecialFollowerSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="SpecialFollowedSet" EntityType="myWeiboDB202005061120Model.Store.SpecialFollowedSet" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="UsersAnimals" Association="myWeiboDB202005061120Model.Store.UsersAnimals">
+      <End Role="Users" EntitySet="UsersSet" />
+      <End Role="Animals" EntitySet="AnimalsSet" />
+    </AssociationSet>
+    <AssociationSet Name="UsersPosts" Association="myWeiboDB202005061120Model.Store.UsersPosts">
+      <End Role="Users" EntitySet="UsersSet" />
+      <End Role="Posts" EntitySet="PostsSet" />
+    </AssociationSet>
+    <AssociationSet Name="LikesPosts" Association="myWeiboDB202005061120Model.Store.LikesPosts">
+      <End Role="Likes" EntitySet="LikesSet" />
+      <End Role="Posts" EntitySet="PostsSet" />
+    </AssociationSet>
+    <AssociationSet Name="LikesUsers" Association="myWeiboDB202005061120Model.Store.LikesUsers">
+      <End Role="Likes" EntitySet="LikesSet" />
+      <End Role="Users" EntitySet="UsersSet" />
+    </AssociationSet>
+    <AssociationSet Name="CommentsUsers" Association="myWeiboDB202005061120Model.Store.CommentsUsers">
+      <End Role="Comments" EntitySet="CommentsSet" />
+      <End Role="Users" EntitySet="UsersSet" />
+    </AssociationSet>
+    <AssociationSet Name="CommentsPosts" Association="myWeiboDB202005061120Model.Store.CommentsPosts">
+      <End Role="Comments" EntitySet="CommentsSet" />
+      <End Role="Posts" EntitySet="PostsSet" />
+    </AssociationSet>
+    <AssociationSet Name="FollowerUsers" Association="myWeiboDB202005061120Model.Store.FollowerUsers">
+      <End Role="Follower" EntitySet="FollowerSet" />
+      <End Role="Users" EntitySet="UsersSet" />
+    </AssociationSet>
+    <AssociationSet Name="FollowedUsers" Association="myWeiboDB202005061120Model.Store.FollowedUsers">
+      <End Role="Followed" EntitySet="FollowedSet" />
+      <End Role="Users" EntitySet="UsersSet" />
+    </AssociationSet>
+    <AssociationSet Name="FK_FollowedFollowers" Association="myWeiboDB202005061120Model.Store.FK_FollowedFollowers">
+      <End Role="Users" EntitySet="UsersSet" />
+      <End Role="Followed" EntitySet="FollowedSet" />
+    </AssociationSet>
+    <AssociationSet Name="FK_FollowerFollowers" Association="myWeiboDB202005061120Model.Store.FK_FollowerFollowers">
+      <End Role="Users" EntitySet="UsersSet" />
+      <End Role="Follower" EntitySet="FollowerSet" />
+    </AssociationSet>
+    <AssociationSet Name="UsersSpecialFollower" Association="myWeiboDB202005061120Model.Store.UsersSpecialFollower">
+      <End Role="Users" EntitySet="UsersSet" />
+      <End Role="SpecialFollower" EntitySet="SpecialFollowerSet" />
+    </AssociationSet>
+    <AssociationSet Name="UsersSpecialFollowed" Association="myWeiboDB202005061120Model.Store.UsersSpecialFollowed">
+      <End Role="Users" EntitySet="UsersSet" />
+      <End Role="SpecialFollowed" EntitySet="SpecialFollowedSet" />
+    </AssociationSet>
+    <AssociationSet Name="UsersSpecialFollower1" Association="myWeiboDB202005061120Model.Store.UsersSpecialFollower1">
+      <End Role="SpecialFollower" EntitySet="SpecialFollowerSet" />
+      <End Role="Users" EntitySet="UsersSet" />
+    </AssociationSet>
+    <AssociationSet Name="SpecialFollowedUsers" Association="myWeiboDB202005061120Model.Store.SpecialFollowedUsers">
+      <End Role="SpecialFollowed" EntitySet="SpecialFollowedSet" />
+      <End Role="Users" EntitySet="UsersSet" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="UsersSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserId" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Email" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="UserName" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Sex" Type="nvarchar(max)" Nullable="false" DefaultValue="雄" />
+    <Property Name="PhoneNumber" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Location" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="AboutMe" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Photo" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="AnimalsId" Type="int" Nullable="false" />
+    <Property Name="TimeStamp" Type="datetime" Nullable="false" />
+    <Property Name="Vip" Type="bit" Nullable="true" DefaultValue="false" />
+  </EntityType>
+  <EntityType Name="AnimalsSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="DefaultPhoto" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="PostsSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Body" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Photo" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="TimeStamp" Type="datetime" Nullable="false" />
+    <Property Name="LikesNumber" Type="bigint" Nullable="false" DefaultValue="0" />
+    <Property Name="CommentsNumber" Type="bigint" Nullable="false" DefaultValue="0" />
+    <Property Name="Score" Type="float" Nullable="false" DefaultValue="0" />
+    <Property Name="UsersId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="LikesSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="TimeStamp" Type="datetime" Nullable="false" />
+    <Property Name="PostsId" Type="int" Nullable="false" />
+    <Property Name="UsersId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="CommentsSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="TimeStamp" Type="datetime" Nullable="false" />
+    <Property Name="UsersId" Type="int" Nullable="false" />
+    <Property Name="PostsId" Type="int" Nullable="false" />
+    <Property Name="Body" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="FollowerSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="TimeStamp" Type="datetime" Nullable="true" />
+    <Property Name="UsersId" Type="int" Nullable="false" />
+    <Property Name="FollowersId" Type="int" Nullable="true" />
+  </EntityType>
+  <EntityType Name="FollowedSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="TimeStamp" Type="datetime" Nullable="true" />
+    <Property Name="UsersId" Type="int" Nullable="false" />
+    <Property Name="FollowedsId" Type="int" Nullable="true" />
+  </EntityType>
+  <EntityType Name="SpecialFollowerSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="TimeStamp" Type="datetime" Nullable="true" />
+    <Property Name="UsersId" Type="int" Nullable="false" />
+    <Property Name="SPFollowersId" Type="int" Nullable="true" />
+  </EntityType>
+  <EntityType Name="SpecialFollowedSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="TimeStamp" Type="datetime" Nullable="true" />
+    <Property Name="UsersId" Type="int" Nullable="false" />
+    <Property Name="SPFollowedsId" Type="int" Nullable="true" />
+  </EntityType>
+  <Association Name="UsersAnimals">
+    <End Role="Users" Type="myWeiboDB202005061120Model.Store.UsersSet" Multiplicity="*" />
+    <End Role="Animals" Type="myWeiboDB202005061120Model.Store.AnimalsSet" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Animals">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Users">
+        <PropertyRef Name="AnimalsId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="UsersPosts">
+    <End Role="Users" Type="myWeiboDB202005061120Model.Store.UsersSet" Multiplicity="1" />
+    <End Role="Posts" Type="myWeiboDB202005061120Model.Store.PostsSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Posts">
+        <PropertyRef Name="UsersId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="LikesPosts">
+    <End Role="Likes" Type="myWeiboDB202005061120Model.Store.LikesSet" Multiplicity="*" />
+    <End Role="Posts" Type="myWeiboDB202005061120Model.Store.PostsSet" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Posts">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Likes">
+        <PropertyRef Name="PostsId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="LikesUsers">
+    <End Role="Likes" Type="myWeiboDB202005061120Model.Store.LikesSet" Multiplicity="*" />
+    <End Role="Users" Type="myWeiboDB202005061120Model.Store.UsersSet" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Likes">
+        <PropertyRef Name="UsersId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="CommentsUsers">
+    <End Role="Comments" Type="myWeiboDB202005061120Model.Store.CommentsSet" Multiplicity="*" />
+    <End Role="Users" Type="myWeiboDB202005061120Model.Store.UsersSet" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Comments">
+        <PropertyRef Name="UsersId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="CommentsPosts">
+    <End Role="Comments" Type="myWeiboDB202005061120Model.Store.CommentsSet" Multiplicity="*" />
+    <End Role="Posts" Type="myWeiboDB202005061120Model.Store.PostsSet" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Posts">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Comments">
+        <PropertyRef Name="PostsId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FollowerUsers">
+    <End Role="Follower" Type="myWeiboDB202005061120Model.Store.FollowerSet" Multiplicity="*" />
+    <End Role="Users" Type="myWeiboDB202005061120Model.Store.UsersSet" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Follower">
+        <PropertyRef Name="UsersId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FollowedUsers">
+    <End Role="Followed" Type="myWeiboDB202005061120Model.Store.FollowedSet" Multiplicity="*" />
+    <End Role="Users" Type="myWeiboDB202005061120Model.Store.UsersSet" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Followed">
+        <PropertyRef Name="UsersId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_FollowedFollowers">
+    <End Role="Users" Type="myWeiboDB202005061120Model.Store.UsersSet" Multiplicity="0..1" />
+    <End Role="Followed" Type="myWeiboDB202005061120Model.Store.FollowedSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Followed">
+        <PropertyRef Name="FollowedsId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_FollowerFollowers">
+    <End Role="Users" Type="myWeiboDB202005061120Model.Store.UsersSet" Multiplicity="0..1" />
+    <End Role="Follower" Type="myWeiboDB202005061120Model.Store.FollowerSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Follower">
+        <PropertyRef Name="FollowersId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="UsersSpecialFollower">
+    <End Role="Users" Type="myWeiboDB202005061120Model.Store.UsersSet" Multiplicity="1" />
+    <End Role="SpecialFollower" Type="myWeiboDB202005061120Model.Store.SpecialFollowerSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="SpecialFollower">
+        <PropertyRef Name="UsersId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="UsersSpecialFollowed">
+    <End Role="Users" Type="myWeiboDB202005061120Model.Store.UsersSet" Multiplicity="1" />
+    <End Role="SpecialFollowed" Type="myWeiboDB202005061120Model.Store.SpecialFollowedSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="SpecialFollowed">
+        <PropertyRef Name="UsersId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="UsersSpecialFollower1">
+    <End Role="SpecialFollower" Type="myWeiboDB202005061120Model.Store.SpecialFollowerSet" Multiplicity="*" />
+    <End Role="Users" Type="myWeiboDB202005061120Model.Store.UsersSet" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="SpecialFollower">
+        <PropertyRef Name="SPFollowersId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="SpecialFollowedUsers">
+    <End Role="SpecialFollowed" Type="myWeiboDB202005061120Model.Store.SpecialFollowedSet" Multiplicity="*" />
+    <End Role="Users" Type="myWeiboDB202005061120Model.Store.UsersSet" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="SpecialFollowed">
+        <PropertyRef Name="SPFollowedsId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

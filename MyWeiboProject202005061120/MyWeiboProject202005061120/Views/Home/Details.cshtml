@@ -1,0 +1,102 @@
+﻿@model MyWeiboProject202005061120.Models.Posts
+
+@{
+    ViewBag.Title = "动态详情";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>动态详情</h2>
+
+<div>
+    
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            <label for="Body">动态内容</label>
+            @*@Html.DisplayNameFor(model => model.Body)*@
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Body)
+        </dd>
+
+        @if (Request.IsAuthenticated && User.IsInRole("VipUser"))
+        {
+            <dt>
+                <label for="Photo">图片</label>
+                @*@Html.DisplayNameFor(model => model.Photo)*@
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Photo)
+            </dd>
+        }
+
+        <dt>
+            <label for="TimeStamp">发布时间</label>
+            @*@Html.DisplayNameFor(model => model.TimeStamp)*@
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.TimeStamp)
+        </dd>
+
+        <dt>
+            <label for="LikesNumber">点赞数</label>
+            @*@Html.DisplayNameFor(model => model.LikesNumber)*@
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.LikesNumber)
+        </dd>
+
+        <dt>
+            <label for="CommentsNumber">评论数</label>
+            @*@Html.DisplayNameFor(model => model.CommentsNumber)*@
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CommentsNumber)
+        </dd>
+
+        @*<dt>
+            @Html.DisplayNameFor(model => model.Score)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Score)
+        </dd>*@
+
+        @*<dt>
+            @Html.DisplayNameFor(model => model.Users.Email)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Users.Email)
+        </dd>*@
+
+    </dl>
+</div>
+@*@Html.ActionLink("写评论", "Index", "Comments")*@
+@*, new { id = Model.Id }*@
+@Html.ActionLink("评论", "CreateComment", "Posts", new { id = Model.Id })
+@*<a href="~/Comments/Create">评论</a>*@
+
+@if (Request.IsAuthenticated && Model.IsLiked(Model.UsersId, Model.Id))
+{
+    @Html.ActionLink("取消点赞", "DeleteLike", new { id = Model.Id })
+}
+@if (Request.IsAuthenticated && !Model.IsLiked(Model.UsersId, Model.Id))
+{
+    @Html.ActionLink("点赞", "CreateLike", new { id = Model.Id })
+}
+
+<br />
+<p>
+    @if (Request.IsAuthenticated && User.IsInRole("VipUser"))
+    {
+        @Html.ActionLink("编辑", "Edit", new { id = Model.Id }) 
+    }
+    @Html.ActionLink("返回", "ShowMyPosts") |
+    @Html.ActionLink("查看评论", "ShowPostComments", new { id = Model.Id})
+</p>
+<script type="text/javascript">
+    var Pid = Model.Id;//Pid是变量内容
+    //document.getElementById("Comments").href = "<a href=\"~/Comments/ShowPostComments/" + Pid + "\">查看评论</a>";
+</script> 
+@*@Html.Partial("ShowPostComments")*@
+
+

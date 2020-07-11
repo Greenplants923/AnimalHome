@@ -1,0 +1,37 @@
+﻿@model IdentitySample.Models.ApplicationUser
+
+@{
+    ViewBag.Title = "删除用户";
+}
+<div style="margin-top:30px;margin-bottom:100px;">
+    <div class="col-md-1"></div>
+    <div class="col-md-11">
+        <h2 style="font-family:YouYuan;font-weight:bold;">删除用户</h2>
+        <hr />
+        <h3 style="font-family:YouYuan;font-weight:bold;font-size:20px;">确定要删除此用户？</h3>
+        <br />
+    </div>
+</div>
+
+<div>
+    <div class="col-md-1"></div>
+    <dl class="dl-horizontal col-md-11">
+        <dt>
+            <label for="UserName" style="font-size:18px;">用户邮箱</label>
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.UserName)
+        </dd>
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+        <div class="col-md-1"></div>
+        <div class="form-actions no-color col-md-11">
+            <input type="submit" value="删除" class="btn btn-primary" style="font-size:16px;"/> |
+            <p class="btn btn-primary" style="font-size:16px;margin-left:20px;">
+                @Html.ActionLink("返回", "Index")
+            </p>
+        </div>
+    }
+</div>

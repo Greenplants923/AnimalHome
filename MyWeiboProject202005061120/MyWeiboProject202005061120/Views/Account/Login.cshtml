@@ -1,0 +1,64 @@
+﻿@model IdentitySample.Models.LoginViewModel
+
+@{
+    ViewBag.Title = "登录";
+}
+
+<div style="margin-top:30px;margin-bottom:100px;">
+    <div class="col-md-1"></div>
+    <div class="col-md-11">
+        <h2 style="font-family:YouYuan;font-weight:bold;">登录</h2>
+    </div>
+</div>
+
+<div class="row" style="margin-left:150px;">
+    <div class="col-md-8">
+        <section id="loginForm">
+            @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" })) {
+                @Html.AntiForgeryToken()
+                <h4 style="font-family:YouYuan;font-weight:bold;">使用已注册账号登录</h4>
+                <hr />
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    <label for="Email" class = "col-md-2 control-label">邮箱</label>
+                    @*@Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })*@
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="Password" class = "col-md-2 control-label">密码</label>
+                    @*@Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })*@
+                    <div class="col-md-10">
+                        @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <div class="checkbox">
+                            @Html.CheckBoxFor(m => m.RememberMe)
+                            <label for="RememberMe"> 保持登录状态 </label>
+                            @*@Html.LabelFor(m => m.RememberMe)*@
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="登录" class="btn btn-default" />
+                    </div>
+                </div>
+                <p>
+                    @Html.ActionLink("还没账号？点击注册成为新用户", "Register")
+                </p>
+                <p>
+                    @Html.ActionLink("忘记密码", "ForgotPassword")
+                </p>
+            }
+        </section>
+    </div>
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

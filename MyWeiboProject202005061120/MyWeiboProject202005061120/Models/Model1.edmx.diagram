@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="c6c8d486608a479ea00eba2aedbca8cf" Name="Diagram1" ZoomLevel="83" >
+        <EntityTypeShape EntityType="myWeiboDB202005061120Model.Users" Width="1.5" PointX="2.625" PointY="0.5" />
+        <EntityTypeShape EntityType="myWeiboDB202005061120Model.Animals" Width="1.5" PointX="0.5" PointY="0.5" />
+        <AssociationConnector Association="myWeiboDB202005061120Model.UsersAnimals" />
+        <EntityTypeShape EntityType="myWeiboDB202005061120Model.Posts" Width="1.5" PointX="7.125" PointY="0.5" />
+        <EntityTypeShape EntityType="myWeiboDB202005061120Model.Likes" Width="1.5" PointX="4.875" PointY="0.5" />
+        <AssociationConnector Association="myWeiboDB202005061120Model.UsersPosts" />
+        <AssociationConnector Association="myWeiboDB202005061120Model.LikesPosts" />
+        <AssociationConnector Association="myWeiboDB202005061120Model.LikesUsers" />
+        <EntityTypeShape EntityType="myWeiboDB202005061120Model.Comments" Width="1.5" PointX="4.875" PointY="3" />
+        <AssociationConnector Association="myWeiboDB202005061120Model.CommentsUsers" />
+        <AssociationConnector Association="myWeiboDB202005061120Model.CommentsPosts" />
+        <EntityTypeShape EntityType="myWeiboDB202005061120Model.Follower" Width="1.5" PointX="0.5" PointY="2.375" />
+        <AssociationConnector Association="myWeiboDB202005061120Model.FollowerUsers" />
+        <EntityTypeShape EntityType="myWeiboDB202005061120Model.Followed" Width="1.5" PointX="0.5" PointY="4.75" />
+        <AssociationConnector Association="myWeiboDB202005061120Model.FollowedUsers" />
+        <EntityTypeShape EntityType="myWeiboDB202005061120Model.SpecialFollower" Width="1.625" PointX="4.75" PointY="5.875" />
+        <EntityTypeShape EntityType="myWeiboDB202005061120Model.SpecialFollowed" Width="1.75" PointX="7.25" PointY="4.875" />
+        <AssociationConnector Association="myWeiboDB202005061120Model.FK_FollowedFollowers" />
+        <AssociationConnector Association="myWeiboDB202005061120Model.FK_FollowerFollowers" />
+        <AssociationConnector Association="myWeiboDB202005061120Model.UsersSpecialFollower" />
+        <AssociationConnector Association="myWeiboDB202005061120Model.UsersSpecialFollowed" />
+        <AssociationConnector Association="myWeiboDB202005061120Model.UsersSpecialFollower1" />
+        <AssociationConnector Association="myWeiboDB202005061120Model.SpecialFollowedUsers" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

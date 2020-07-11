@@ -1,0 +1,46 @@
+﻿@model MyWeiboProject202005061120.Models.Posts
+@using Microsoft.AspNet.Identity
+
+@{
+    ViewBag.Title = "发布动态";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div style="margin-top:30px;margin-bottom:100px;">
+    <div class="col-md-1"></div>
+    <div class="col-md-11">
+        <h2>发布动态</h2>
+    </div>
+</div>
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            <label for="Body" class="control-label col-md-2">动态内容</label>
+            <div class="col-md-10">
+                <textarea class="form-control" style="width:500px;height:200px;" name="Body" id="Body"></textarea>
+                @Html.ValidationMessageFor(model => model.Body, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="发布" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("返回", "ShowUsersPosts", "Posts", new { id = User.Identity.GetUserId()}, htmlAttributes: new { title = "ShowUsersPosts" })
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

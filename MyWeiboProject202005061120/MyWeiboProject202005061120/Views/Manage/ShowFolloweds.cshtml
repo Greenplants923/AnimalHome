@@ -1,0 +1,80 @@
+﻿@model IEnumerable<MyWeiboProject202005061120.Models.Followed>
+@using Microsoft.AspNet.Identity
+@using MyWeiboProject202005061120.Models;
+@using PagedList
+@using PagedList.Mvc
+
+@{
+    ViewBag.Title = "关注的人";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div style="margin-top:30px;margin-bottom:100px;">
+    <div class="col-md-1"></div>
+    <div class="col-md-11">
+        <h2 style="font-weight:bold;">关注的人</h2>
+    </div>
+</div>
+
+<div class="col-md-12">
+    @foreach (var item in Model)
+    {
+        <div class="col-md-1"></div>
+        <div class="col-md-5" style="border-color: #ff0000;border-bottom-width:5px;margin-bottom:50px;">
+            @*显示用户头像*@
+            @if (item.Users.Photo != null)
+        {
+        <img src="~/myUploads/@item.UsersSet.Photo" style="height:50px;width:50px;display:block,inline" class="img-circle" />
+        }
+        @*显示用户名 对于登录用户，点击用户名可查看用户信息*@
+        @if (Request.IsAuthenticated && User.IsInRole("Admin") == false && User.IsInRole("Advertiser") == false)
+        {
+        <p style="font-size:20px;display:inline;">
+            @Html.ActionLink(item.UsersSet.UserName, "ShowBasicInformation", "Manage", new { id = item.UsersSet.UserId }, htmlAttributes: new { title = "UsersInfo" })
+        </p>
+        }
+        @if (!Request.IsAuthenticated || (Request.IsAuthenticated && (User.IsInRole("Admin") || User.IsInRole("Advertiser"))))
+        {
+        <p style="font-size:20px;display:inline;">
+            @Html.DisplayFor(modelItem => item.UsersSet.UserName)
+        </p>
+        }
+        <p style="display:inline;margin-left:20px;font-size:18px;">
+            @*显示关注时间*@
+            @Html.DisplayFor(modelItem => item.TimeStamp)
+        </p>
+        <br />
+        @if (User.Identity.GetUserId() == item.Users.UserId)
+        {
+        <p style="font-size:16px;margin-left:50px;" class="btn btn-primary">
+            @Html.ActionLink("取消关注", "DeleteMyFolloweds", new { followedid = item.UsersSet.Id })
+        </p>
+        }
+        @if (item.Users.IsVip(User.Identity.GetUserId()) == true && User.Identity.GetUserId() == item.Users.UserId)
+        {
+            if (item.Users.IsSPFollowed(User.Identity.GetUserId(), item.UsersSet.Id) == false)
+            {
+        <p style="font-size:16px;margin-left:50px;" class="btn btn-primary">
+            @Html.ActionLink("特别关注", "CreateMySPFolloweds", new { spfollowedid = item.UsersSet.Id })
+        </p>
+            }
+            if (item.Users.IsSPFollowed(User.Identity.GetUserId(), item.UsersSet.Id) == true)
+            {
+        <p style="font-size:16px;margin-left:50px;" class="btn btn-primary">
+            @Html.ActionLink("取消特别关注", "DeleteMySPFolloweds", new { spfollowedid = item.UsersSet.Id })
+        </p>
+            }
+        }
+    </div>
+    }
+</div>
+
+<div class="col-md-12">
+    <div class="col-md-1"></div>
+    <div class="col-md-11">
+        @Html.PagedListPager((IPagedList)Model, page => Url.Action("ShowFolloweds", new { page }))
+        <p style="font-size:16px;">
+            <input type="button" onclick="javascript: window.history.go(-1);" value="返回" class="btn btn-primary" />
+        </p>
+    </div>
+</div>
+

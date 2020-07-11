@@ -1,0 +1,100 @@
+﻿@model MyWeiboProject202005061120.Models.Users
+@using Microsoft.AspNet.Identity
+
+@{
+    ViewBag.Title = "用户信息";
+}
+
+<div style="margin-top:30px;margin-bottom:100px;">
+    <div class="col-md-1"></div>
+    <div class="col-md-11">
+        <h2 style="font-family:YouYuan;font-weight:bold;">用户信息</h2>
+    </div>
+</div>
+<script src="@Url.Content("~/Scripts/jquery-1.10.2.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.unobtrusive-ajax.min.js")" type="text/javascript"></script>
+
+<div>
+    <div class="col-md-1"></div>
+    <div class="col-md-11">
+        <hr />
+        <div style="margin-bottom:10px;">
+            @if (Model.Photo == null || Model.Photo == "")
+            {
+                @Html.DisplayFor(model => model.Photo)
+            }
+            @if (Model.Photo != null && Model.Photo != null)
+            {
+                <img src="~/myUploads/@Model.Photo" id="Photo" name="Photo" style="height:100px;width:100px;display:block,inline" class="img-circle" />
+            }
+            <p style="display:inline;font-size:26px;margin-left:20px;font-weight:bold;">
+                @Html.DisplayFor(model => model.UserName)
+            </p>
+        </div>
+        <br />
+        <div>
+            <p style="display:inline;font-size:20px;margin-left:20px;">
+                <label for="Email">用户ID：</label>
+                @Html.DisplayFor(model => model.UserId)
+            </p>
+            <br />
+            <p style="display:inline;font-size:20px;margin-left:20px;">
+                <label for="Email">邮箱：</label>
+                @Html.DisplayFor(model => model.Email)
+            </p>
+            <br />
+            <p style="display:inline;font-size:20px;margin-left:20px;">
+                <label for="Animals">物种：</label>
+                @Html.DisplayFor(model => model.Animals.Name)
+            </p>
+            <br />
+
+            <p style="display:inline;font-size:20px;margin-left:20px;">
+                <label for="Sex">性别：</label>
+                @Html.DisplayFor(model => model.Sex)
+            </p>
+            <br />
+            <p style="display:inline;font-size:20px;margin-left:20px;">
+                <label for="PhoneNumber">手机号：</label>
+                @Html.DisplayFor(model => model.PhoneNumber)
+            </p>
+            <br />
+            <p style="display:inline;font-size:20px;margin-left:20px;">
+                <label for="Location">居住地：</label>
+                @Html.DisplayFor(model => model.Location)
+            </p>
+            <br />
+            <p style="display:inline;font-size:20px;margin-left:20px;">
+                <label for="TimeStamp">注册时间：</label>
+                @Html.DisplayFor(model => model.TimeStamp)
+            </p>
+            <br />
+            <p style="display:inline;font-size:20px;margin-left:20px;">
+                <label for="Vip">VIP：</label>
+                @Html.DisplayFor(model => model.Vip)
+            </p>
+            <br />
+            <p style="display:inline;font-size:20px;margin-left:20px;">
+                <label for="AboutMe">个性签名：</label>
+                @Html.DisplayFor(model => model.AboutMe)
+            </p>
+        </div>
+    </div>
+</div>
+
+<div>
+    <div class="col-md-1"></div>
+    <div class="col-md-11">
+        <p class="btn btn-primary" style="font-size:16px;">
+            @Html.ActionLink("编辑", "Edit", new { id = Model.UserId })
+        </p>
+        <br /><br />
+        <p class="btn btn-primary" style="font-size:16px;">
+            @Html.ActionLink("返回", "Index")
+        </p>
+
+    </div>
+</div>
+
+
+

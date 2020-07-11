@@ -1,0 +1,58 @@
+﻿@model Microsoft.AspNet.Identity.EntityFramework.IdentityRole
+
+@{
+    ViewBag.Title = "角色详情";
+}
+
+<div style="margin-top:30px;margin-bottom:100px;">
+    <div class="col-md-1"></div>
+    <div class="col-md-11">
+        <h2 style="font-weight:bold;margin-bottom:20px;">角色详情</h2>
+        <hr />
+    </div>
+</div>
+
+
+<div>
+    <dl class="dl-horizontal">
+        <dt>
+            <label for="Name" style="font-size:18px;">角色名</label>
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+    </dl>
+    <dl class="dl-horizontal">
+        <dt>
+            <label style="font-size:16px;">用户邮箱</label>
+        </dt>
+        <dd></dd>
+    </dl>
+</div>
+
+@foreach (var item in ViewBag.Users)
+{
+    <div>
+        <div class="col-md-2"></div>
+        <div class="col-md-5">
+            <p style="font-size:16px;"> 
+                @item.UserName
+            </p>
+        </div>
+    </div>
+}
+<br /><br /><br />
+<div>
+    <div class="col-md-1"></div>
+    <div class="col-md-11">
+        <p class="btn btn-primary" style="font-size:16px;display:inline;margin-right:30px;">
+            @Html.ActionLink("编辑", "Edit", new { id = Model.Id })
+        </p>
+        <p class="btn btn-primary" style="font-size:16px;display:inline;">
+            @Html.ActionLink("返回", "Index")
+        </p>
+    </div>
+</div>
+
+
+

@@ -1,0 +1,47 @@
+﻿@model IEnumerable<Microsoft.AspNet.Identity.EntityFramework.IdentityRole>
+
+@{
+    ViewBag.Title = "角色管理";
+}
+
+<div style="margin-top:30px;margin-bottom:100px;">
+    <div class="col-md-1"></div>
+    <div class="col-md-11">
+        <h2 style="font-weight:bold;margin-bottom:20px;">角色管理</h2>
+        <hr />
+        <p class="btn btn-primary" style="font-size:16px;">
+            @Html.ActionLink("创建新角色", "Create")
+        </p>
+        <br /><br />
+    </div>
+</div>
+
+<p>
+</p>
+
+@foreach (var item in Model)
+{
+    <div>
+        <div class="col-md-1"></div>
+        <div class="col-md-5">
+            <label style="font-family:YouYuan;font-size:18px;">角色名:</label>
+            <p style="display:inline;font-size:18px;">
+                @Html.DisplayFor(modelItem => item.Name)
+            </p>
+            <br />
+            <div style="margin-bottom:40px;">
+                <p class="btn btn-primary" style="font-size:16px;display:inline;margin-right:20px;">
+                    @Html.ActionLink("编辑", "Edit", new { id = item.Id })
+                </p>
+                <p class="btn btn-primary" style="font-size:16px;display:inline;margin-right:20px;">
+                    @Html.ActionLink("查看详情", "Details", new { id = item.Id })
+                </p>
+                <p class="btn btn-primary" style="font-size:16px;display:inline;margin-right:20px;">
+                    @Html.ActionLink("删除", "Delete", new { id = item.Id })
+                </p>
+            </div>
+        </div>
+        <br /><br />
+    </div>
+}
+

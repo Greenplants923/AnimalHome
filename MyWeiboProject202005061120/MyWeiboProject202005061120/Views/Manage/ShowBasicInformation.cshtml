@@ -1,0 +1,154 @@
+﻿@model MyWeiboProject202005061120.Models.Users
+@using Microsoft.AspNet.Identity
+
+@{
+    ViewBag.Title = "个人资料";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div style="margin-top:30px;margin-bottom:100px;">
+    <div class="col-md-1"></div>
+    <div class="col-md-11">
+        <h2 style="font-family:YouYuan;font-weight:bold;">个人资料</h2>
+    </div>
+</div>
+
+<script src="@Url.Content("~/Scripts/jquery-1.10.2.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.unobtrusive-ajax.min.js")" type="text/javascript"></script>
+
+<div>
+    <div class="col-md-1"></div>
+    <div class="col-md-11">
+        <hr />
+        <div style="margin-bottom:10px;">
+            @if (Model.Photo == null || Model.Photo == "")
+            {
+                @Html.DisplayFor(model => model.Photo)
+            }
+            @if (Model.Photo != null && Model.Photo != null)
+            {
+                <img src="~/myUploads/@Model.Photo" id="Photo" name="Photo" style="height:100px;width:100px;display:block,inline" class="img-circle" />
+            }
+            <p style="display:inline;font-size:26px;margin-left:20px;font-weight:bold;">
+                @Html.DisplayFor(model => model.UserName)
+            </p>
+        </div>
+        <br />
+        <div>
+            <p style="display:inline;font-size:20px;margin-left:20px;">
+                <label for="Email">邮箱：</label>
+                @Html.DisplayFor(model => model.Email)
+            </p>
+            <br />
+            <p style="display:inline;font-size:20px;margin-left:20px;">
+                <label for="Animals">物种：</label>
+                @Html.DisplayFor(model => model.Animals.Name)
+            </p>
+            <br />
+
+            <p style="display:inline;font-size:20px;margin-left:20px;">
+                <label for="Sex">性别：</label>
+                @Html.DisplayFor(model => model.Sex)
+            </p>
+            <br />
+            <p style="display:inline;font-size:20px;margin-left:20px;">
+                <label for="PhoneNumber">手机号：</label>
+                @Html.DisplayFor(model => model.PhoneNumber)
+            </p>
+            <br />
+            <p style="display:inline;font-size:20px;margin-left:20px;">
+                <label for="Location">居住地：</label>
+                @Html.DisplayFor(model => model.Location)
+            </p>
+            <br />
+            <p style="display:inline;font-size:20px;margin-left:20px;">
+                <label for="TimeStamp">注册时间：</label>
+                @Html.DisplayFor(model => model.TimeStamp)
+            </p>
+            <br />
+            <p style="display:inline;font-size:20px;margin-left:20px;">
+                <label for="Vip">VIP：</label>
+                @Html.DisplayFor(model => model.Vip)
+            </p>
+            <br />
+            <p style="display:inline;font-size:20px;margin-left:20px;">
+                <label for="AboutMe">个性签名：</label>
+                @Html.DisplayFor(model => model.AboutMe)
+            </p>
+        </div>
+    </div>
+</div>
+
+<div style="margin-top:30px;">
+    <div class="col-md-1"></div>
+    <div class="col-md-11">
+        <br />
+            @if (Request.IsAuthenticated && User.Identity.GetUserId() == Model.UserId)
+            {
+                <p style="font-size:20px;margin-left:20px;" class="btn btn-primary">
+                    @Html.ActionLink("编辑资料", "EditBasicInformation", new { id = Model.Id })
+                </p>
+            }
+        <p style="margin-left:20px;" class="btn btn-primary">
+            @Html.ActionLink("全部动态", "ShowUsersPosts", "Posts", new { id = Model.UserId }, htmlAttributes: new { title = "ShowUsersPosts" })
+        </p>
+        @if (User.Identity.GetUserId() != Model.UserId)
+        {
+            <p style="margin-left:20px;" class="btn btn-primary">
+
+                @Html.ActionLink("关注的人", "ShowFolloweds", "Manage", new { id = Model.UserId }, htmlAttributes: new { title = "ShowUsersPosts" }) <document.write("&nbsp;&nbsp;&nbsp;&nbsp;"); />
+            </p>
+            <p style="margin-left:20px;" class="btn btn-primary">
+                @Html.ActionLink("粉丝", "ShowFollowers", "Manage", new { id = Model.UserId }, htmlAttributes: new { title = "ShowUsersPosts" })
+            </p>
+            <p style="margin-left:20px;" class="btn btn-primary">
+                @if (Model.IsFollowed(User.Identity.GetUserId(), Model.Id) == true)
+                {
+                    @Html.ActionLink("取消关注", "DeleteFollowed", "Manage", new { followedid = Model.Id }, htmlAttributes: new { title = "CancelFollowed" })
+                }
+                @if (Model.IsFollowed(User.Identity.GetUserId(), Model.Id) == false)
+                {
+                    @Html.ActionLink("关注", "CreateFollowed", "Manage", new { followedid = Model.Id }, htmlAttributes: new { title = "Followed" })
+                }
+            </p>
+
+        }
+    </div>
+</div>
+
+<br /><br />
+<div>
+    <div class="col-md-1"></div>
+    <div class="col-md-11">
+        @if (User.Identity.GetUserId() == Model.UserId && Model.IsVip(Model.UserId) == false)
+        {
+            <br /><br /><hr />
+            <p style="font-family:YouYuan;font-weight:bold;font-size:18px;margin-left:15px;">成为Vip用户</p>
+            <label class="col-md-2 control-label" style="font-family:YouYuan;font-size:16px;margin-bottom:20px;">选择充值套餐：</label><br /><br /><br />
+            <img src="~/myUploads/VipA.png" style="height:100px;margin-left:20px;margin-bottom:20px;margin-right:10px;" /><input name="VipClass" type="radio" value="A" defaultChecked />
+            <img src="~/myUploads/VipB.png" style="height:100px;margin-left:40px;margin-bottom:20px;margin-right:10px;" /><input name="VipClass" type="radio" value="B" defaultChecked />
+            <img src="~/myUploads/VipC.png" style="height:100px;margin-left:40px;margin-bottom:20px;margin-right:10px;" /><input name="VipClass" type="radio" value="C" defaultChecked />
+            <img src="~/myUploads/VipD.png" style="height:100px;margin-left:40px;margin-bottom:20px;margin-right:10px;" /><input name="VipClass" type="radio" value="D" defaultChecked />
+            <br /><br />
+            <p class="btn btn-primary" style="font-size:16px;margin-left:20px;">
+                @Html.ActionLink("成为会员", "ToBeVip", "Manage", new { userid = Model.UserId }, htmlAttributes: new { title = "ToBeVip" })
+            </p>
+        }
+        @if (User.Identity.GetUserId() != Model.UserId && Model.IsVip(Model.UserId) == false)
+        {
+            <br /><br /><hr />
+            <p style="font-family:YouYuan;font-weight:bold;font-size:18px;margin-left:15px;">成为Vip用户</p>
+            <label class="col-md-2 control-label" style="font-family:YouYuan;font-size:16px;margin-bottom:20px;">选择充值套餐：</label><br /><br /><br />
+            <img src="~/myUploads/VipA.png" style="height:100px;margin-left:20px;margin-bottom:20px;margin-right:10px;" /><input name="VipClass" type="radio" value="A" defaultChecked />
+            <img src="~/myUploads/VipB.png" style="height:100px;margin-left:40px;margin-bottom:20px;margin-right:10px;" /><input name="VipClass" type="radio" value="B" defaultChecked />
+            <img src="~/myUploads/VipC.png" style="height:100px;margin-left:40px;margin-bottom:20px;margin-right:10px;" /><input name="VipClass" type="radio" value="C" defaultChecked />
+            <img src="~/myUploads/VipD.png" style="height:100px;margin-left:40px;margin-bottom:20px;margin-right:10px;" /><input name="VipClass" type="radio" value="D" defaultChecked />
+            <br /><br />
+            <p class="btn btn-primary" style="font-size:16px;margin-left:20px;">
+                @Html.ActionLink("赠送会员", "ToBeVip", "Manage", new { userid = Model.UserId }, htmlAttributes: new { title = "ToBeVip" })
+            </p>
+        }
+    </div>
+</div>
+
+
+

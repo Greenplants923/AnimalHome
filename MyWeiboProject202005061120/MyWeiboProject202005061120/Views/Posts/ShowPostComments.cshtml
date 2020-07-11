@@ -1,0 +1,70 @@
+﻿@model IEnumerable<MyWeiboProject202005061120.Models.Comments>
+@using Microsoft.AspNet.Identity;
+@using PagedList
+@using PagedList.Mvc
+
+@{
+    ViewBag.Title = "查看评论";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div style="margin-top:30px;margin-bottom:100px;">
+    <div class="col-md-1"></div>
+    <div class="col-md-11">
+        <h2 style="font-weight:bold;">全部评论</h2>
+    </div>
+</div>
+
+@foreach (var item in Model)
+{
+    <div class="col-md-1"></div>
+    <div class="col-md-5" style="border-color: #ff0000;border-bottom-width:5px;margin-bottom:50px;">
+        @*显示用户头像*@
+        @if (item.Users.Photo != null)
+        {
+            <img src="~/myUploads/@item.Users.Photo" style="height:50px;width:50px;display:block,inline" class="img-circle" />
+        }
+        @*显示用户名 对于登录用户，点击用户名可查看用户信息*@
+        @if (Request.IsAuthenticated && User.IsInRole("Admin") == false && User.IsInRole("Advertiser") == false)
+        {
+            <p style="font-size:20px;display:inline;">
+                @Html.ActionLink(item.Users.UserName, "ShowBasicInformation", "Manage", new { id = item.Users.UserId }, htmlAttributes: new { title = "UsersInfo" })
+            </p>
+        }
+        @if (!Request.IsAuthenticated || (Request.IsAuthenticated && (User.IsInRole("Admin") || User.IsInRole("Advertiser"))))
+        {
+            <p style="font-size:20px;display:inline;">
+                @Html.DisplayFor(modelItem => item.Users.UserName)
+            </p>
+        }
+        <br />
+        @*显示评论内容*@
+        <p style="font-size:25px;margin-left:50px;">
+            @Html.DisplayFor(modelItem => item.Body)
+        </p>
+        <p style="display:inline;margin-left:50px;font-size:18px;">
+            @*显示动态发布时间*@
+            @Html.DisplayFor(modelItem => item.TimeStamp)
+        </p>
+        <div style="font-size:18px;margin-left:50px;">
+            @*显示发布该评论/动态的用户可以对评论的操作*@
+            @if (item.Users.UserId == User.Identity.GetUserId() || item.Posts.Users.UserId == User.Identity.GetUserId())
+            {
+                <p class="btn btn-primary" style="font-size:16px;">
+                    @Html.ActionLink("删除", "DeleteComment", "Posts", new { id = item.Id }, htmlAttributes: new { title = "DeleteComment" })
+                </p>
+            }
+            else
+            {
+                <br /><br />
+            }
+        </div>
+    </div>
+}
+
+<div class="col-md-1"></div>
+<div class="col-md-11">
+    @Html.PagedListPager((IPagedList)Model, page => Url.Action("ShowPostComments", new { id=Model.First().PostsId ,page }))
+    <input type="button" onclick="javascript: window.history.go(-1);" value="返回" class="btn btn-primary" />
+</div>
+

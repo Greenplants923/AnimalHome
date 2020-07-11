@@ -1,0 +1,70 @@
+﻿@model MyWeiboProject202005061120.Models.Posts
+@using Microsoft.AspNet.Identity
+
+@{
+    ViewBag.Title = "删除动态";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>删除动态</h2>
+
+<h3>确定要删除此条动态?</h3>
+<div>
+
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            <label for="Body">动态内容</label>
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Body)
+        </dd>
+
+            <dt>
+                <label for="Photo">图片</label>
+            </dt>
+            <dd>
+                @if (Model.Photo != "")
+                {
+                    // 动态图片
+                    <img src="~/myUploads/@Model.Photo" style="height:300px;display:block,inline" />
+                }
+                @if (Model.Photo == "")
+                {
+                    @Html.DisplayFor(modelItem => Model.Photo)
+                }
+            </dd>
+
+        <dt>
+            <label for="TimeStamp">发布时间</label>
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.TimeStamp)
+        </dd>
+
+        <dt>
+            <label for="LikesNumber">点赞数</label>
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LikesNumber)
+        </dd>
+
+        <dt>
+            <label for="CommentsNumber">评论数</label>
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CommentsNumber)
+        </dd>
+    </dl>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="删除" class="btn btn-default" /> |
+            @Html.ActionLink("返回", "Index", "Posts")
+        </div>
+    }
+</div>

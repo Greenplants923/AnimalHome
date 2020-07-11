@@ -1,0 +1,109 @@
+﻿@using Microsoft.AspNet.Identity;
+@using MyWeiboProject202005061120.Models;
+@using PagedList
+@using PagedList.Mvc
+@model IEnumerable<MyWeiboProject202005061120.Models.Posts>
+
+@{
+    ViewBag.Title = "热门动态";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div style="margin-top:30px;margin-bottom:100px;">
+    <div class="col-md-1"></div>
+    <div class="col-md-11">
+        <h2 style="font-family:YouYuan;font-weight:bold;">热门动态</h2>
+    </div>
+</div>
+
+<link href="~/Content/PagedList.css" rel="stylesheet" />
+@foreach (var item in Model)
+{
+    <div class="col-md-1"></div>
+    <div class="col-md-11" style="border-color: #ff0000;border-bottom-width:5px;margin-bottom:50px;">
+        @*显示用户头像*@
+        @if (item.Users.Photo != null && item.Users.Photo != "")
+        {
+            <img src="~/myUploads/@item.Users.Photo" style="height:50px;width:50px;display:block,inline" class="img-circle" />
+        }
+        @*显示用户名 对于登录用户，点击用户名可查看用户信息*@
+        @if (Request.IsAuthenticated && User.IsInRole("Admin") == false && User.IsInRole("Advertiser") == false)
+        {
+            <p style="font-size:20px;display:inline;">
+                @Html.ActionLink(item.Users.UserName, "ShowBasicInformation", "Manage", new { id = item.Users.UserId }, htmlAttributes: new { title = "UsersInfo" })
+            </p>
+        }
+        @if (!Request.IsAuthenticated || (Request.IsAuthenticated && (User.IsInRole("Admin") || User.IsInRole("Advertiser"))))
+        {
+            <p style="font-size:20px;display:inline;">
+                @Html.DisplayFor(modelItem => item.Users.UserName)
+            </p>
+        }
+        <br />
+        @*显示动态内容*@
+        <p style="font-size:22px;margin-left:50px;">
+            @Html.DisplayFor(modelItem => item.Body)
+        </p>
+        @*显示动态图片*@
+        <p style="margin-left:50px;">
+            @if (item.Photo != "" && item.Photo != null)
+            {
+                <img src="~/myUploads/@item.Photo" style="height:300px;display:block,inline;" />
+            }
+            @if (item.Photo == "" || item.Photo == null)
+            {
+                @Html.DisplayFor(modelItem => item.Photo)
+            }
+        </p>
+        <div style="font-size:18px;margin-left:50px;">
+            <p style="display:inline">
+                @*显示动态评论数 点击图标查看动态全部评论*@
+                <img style="display:inline;height:20px;" src="~/myUploads/comments.png" />
+                @Html.DisplayFor(modelItem => item.CommentsNumber)
+                @if (Request.IsAuthenticated && User.IsInRole("Admin") == false && User.IsInRole("Advertiser") == false)
+                {
+                    @Html.ActionLink("评论", "Details", "Posts", new { id = item.Id }, htmlAttributes: new { title = "CreateComment" })
+                }
+            </p>
+            <p style="display:inline;margin-left:20px;">
+                @*显示动态点赞数 点击图标可以给动态点赞*@
+                <img style="display:inline;height:20px;" src="~/myUploads/likes.png" />
+                @Html.DisplayFor(modelItem => item.LikesNumber)
+                @if (Request.IsAuthenticated && User.IsInRole("Admin") == false && User.IsInRole("Advertiser") == false)
+                {
+                    if (item.IsLiked(User.Identity.GetUserId(), item.Id))
+                    {
+                        @Html.ActionLink("取消点赞", "DeleteLike", "Posts", new { id = item.Id }, htmlAttributes: new { title = "DeleteLike" })
+                    }
+                    if (!item.IsLiked(User.Identity.GetUserId(), item.Id))
+                    {
+                        @Html.ActionLink("点赞", "CreateLike", "Posts", new { id = item.Id }, htmlAttributes: new { title = "CreateLike" })
+                    }
+                }
+            </p>
+            <p style="display:inline;margin-left:20px;">
+                @*显示动态发布时间*@
+                @Html.DisplayFor(modelItem => item.TimeStamp)
+            </p>
+        </div>
+        <div style="font-size:18px;margin-left:50px;">
+            @*显示发布该动态的用户可以对动态的操作 Vip用户可以编辑*@
+            @if (Request.IsAuthenticated && item.Users.UserId == User.Identity.GetUserId())
+            {
+                if (User.IsInRole("VipUser"))
+                {
+                    <p style="display:inline;">
+                        @Html.ActionLink("编辑", "Edit", "Posts", new { id = item.Id }, htmlAttributes: new { title = "EditPost" })
+                    </p>
+                }
+                <p style="display:inline;margin-left:30px;">
+                    @Html.ActionLink("删除", "Delete", "Posts", new { id = item.Id }, htmlAttributes: new { title = "DeletePost" })
+                </p>
+            }
+        </div>
+    </div>
+}
+
+<div class="col-md-1"></div>
+<div class="col-md-11">
+    @Html.PagedListPager((IPagedList)Model, page => Url.Action("HotPosts", new { page }))
+</div>

@@ -1,0 +1,77 @@
+﻿@using Microsoft.AspNet.Identity
+
+
+@if (Request.IsAuthenticated)
+{  //如果已经登录
+    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+    {
+        @Html.AntiForgeryToken()
+            <ul class="nav navbar-nav navbar-left">
+                @if (Request.IsAuthenticated && User.IsInRole("VipUser"))
+                {
+                    <li>@Html.ActionLink("特别关注动态", "SPFollowedPosts", "Posts")</li>
+                }
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                @if (Request.IsAuthenticated && User.IsInRole("Advertiser"))
+                {
+                    <li>
+                        @Html.ActionLink("发布广告", "CreateAdv", "Posts", routeValues: null, htmlAttributes: new { title = "Users" })
+                    </li>
+                    <li>
+                        @Html.ActionLink("已发布广告", "ShowUsersPosts", "Posts", new { id = User.Identity.GetUserId() }, htmlAttributes: new { title = "ShowUsersPosts" })
+                    </li>
+                }
+                @if (Request.IsAuthenticated && User.IsInRole("VipUser"))
+                {
+                    <li>
+                        @Html.ActionLink("发布动态", "CreateVip", "Posts", routeValues: null, htmlAttributes: new { title = "Users" })
+                    </li>
+                    <li>
+                        @Html.ActionLink("我的动态", "ShowUsersPosts", "Posts", new { id = User.Identity.GetUserId() }, htmlAttributes: new { title = "ShowUsersPosts" })
+                    </li>
+                    <li>
+                        @Html.ActionLink("我的关注", "ShowFolloweds", "Manage", new { id = User.Identity.GetUserId() }, htmlAttributes: new { title = "ShowUsersPosts" })
+                    </li>
+                    <li>
+                        @Html.ActionLink("我的粉丝", "ShowFollowers", "Manage", new { id = User.Identity.GetUserId() }, htmlAttributes: new { title = "ShowUsersPosts" })
+                    </li>
+                    <li>
+                        @Html.ActionLink("个人资料", "ShowBasicInformation", "Manage", new { id = User.Identity.GetUserId() }, htmlAttributes: new { title = "Information" })
+                    </li>
+                    <li>
+                        @Html.ActionLink("设置", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+                    </li>
+                }
+                @if (Request.IsAuthenticated && User.IsInRole("User"))
+                {
+                    <li>
+                        @Html.ActionLink("发布动态", "Create", "Posts", routeValues: null, htmlAttributes: new { title = "Users" })
+                    </li>
+                    <li>
+                        @Html.ActionLink("我的动态", "ShowUsersPosts", "Posts", new { id = User.Identity.GetUserId() }, htmlAttributes: new { title = "ShowUsersPosts" })
+                    </li>
+                    <li>
+                        @Html.ActionLink("我的关注", "ShowFolloweds", "Manage", new { id = User.Identity.GetUserId() }, htmlAttributes: new { title = "ShowUsersPosts" })
+                    </li>
+                    <li>
+                        @Html.ActionLink("我的粉丝", "ShowFollowers", "Manage", new { id = User.Identity.GetUserId() }, htmlAttributes: new { title = "ShowUsersPosts" })
+                    </li>
+                    <li>
+                        @Html.ActionLink("个人资料", "ShowBasicInformation", "Manage", new { id = User.Identity.GetUserId() }, htmlAttributes: new { title = "Information" })
+                    </li>
+                    <li>
+                        @Html.ActionLink("设置", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+                    </li>
+                }
+                <li><a href="javascript:document.getElementById('logoutForm').submit()">退出</a></li>
+            </ul>
+            }
+            }
+            else
+            {    //未登录
+            <ul class="nav navbar-nav navbar-right">
+                <li>@Html.ActionLink("注册", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
+                <li>@Html.ActionLink("登录", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+            </ul>
+            }

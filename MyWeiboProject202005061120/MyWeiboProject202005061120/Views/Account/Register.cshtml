@@ -1,0 +1,49 @@
+﻿@model IdentitySample.Models.RegisterViewModel
+@{
+    ViewBag.Title = "注册";
+}
+
+<div style="margin-top:30px;margin-bottom:100px;">
+    <div class="col-md-1"></div>
+    <div class="col-md-11">
+        <h2 style="font-family:YouYuan;font-weight:bold;">注册</h2>
+    </div>
+</div>
+
+@using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    <h4 style="margin-left:165px;font-family:YouYuan;font-weight:bold;">先来给您的宠物注册一个账户吧！</h4>
+    <hr style="margin-left:165px;" />
+    @Html.ValidationSummary("", new { @class = "text-danger" })
+    <div class="form-group" style="margin-left:100px;">
+        <label for="Email" class="col-md-2 control-label">邮箱</label>
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group" style="margin-left:100px;">
+        <label for="Password" class="col-md-2 control-label">密码</label>
+        <div class="col-md-10">
+            @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group" style="margin-left:100px;">
+        <label for="ConfirmPassword" class="col-md-2 control-label">确认密码</label>
+        <div class="col-md-10">
+            @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group" style="margin-left:100px;">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" class="btn btn-default" value="提交" />
+        </div>
+    </div>
+    <p style="margin-left:120px;">
+        @Html.ActionLink("已经有账号，点击登录", "Login")
+    </p>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

@@ -1,0 +1,38 @@
+﻿@model IdentitySample.Models.IndexViewModel
+@{
+    ViewBag.Title = "设置";
+}
+
+<div style="margin-top:30px;margin-bottom:100px;">
+    <div class="col-md-1"></div>
+    <div class="col-md-11">
+        <h2 style="font-family:YouYuan;font-weight:bold;">设置</h2>
+        <hr />
+    </div>
+</div>
+
+<p class="text-success">@ViewBag.StatusMessage</p>
+
+<div class="row">
+    <div class="col-md-1"></div>
+    <div class="col-md-8">
+        <p style="margin-top:30px;font-size:18px;" class="btn btn-primary">
+            @(Model.HasPassword ? Html.ActionLink("修改密码", "ChangePassword") 
+                : Html.ActionLink("Pick a password", "SetPassword"))
+        </p>
+        <p style="margin-top:30px;font-size:18px;">
+            手机号: @(Model.PhoneNumber ?? "未绑定")&nbsp; [
+            @if (Model.PhoneNumber != null)
+            {
+                @Html.ActionLink("修改手机号", "AddPhoneNumber")
+                @: &nbsp;|&nbsp;
+                @Html.ActionLink("解绑", "RemovePhoneNumber")
+            }
+            else
+            {
+                @Html.ActionLink("添加", "AddPhoneNumber")
+            }
+            ]
+        </p>
+    </div>
+</div>

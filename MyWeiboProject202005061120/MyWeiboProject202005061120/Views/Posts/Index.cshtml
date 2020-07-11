@@ -1,0 +1,73 @@
+﻿@model IEnumerable<MyWeiboProject202005061120.Models.Posts>
+@using PagedList
+@using PagedList.Mvc
+@using Microsoft.AspNet.Identity;
+
+@{
+    ViewBag.Title = "动态管理";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div style="margin-top:30px;margin-bottom:100px;">
+    <div class="col-md-1"></div>
+    <div class="col-md-11">
+        <h2 style="font-weight:bold;margin-bottom:20px;">动态管理</h2>
+    </div>
+</div>
+
+@foreach (var item in Model)
+{
+    <div class="col-md-1"></div>
+    <div class="col-md-11" style="border-color: #ff0000;border-bottom-width:5px;margin-bottom:50px;">
+        @*显示用户头像*@
+        @if (item.Users.Photo != null && item.Users.Photo != "")
+        {
+            <img src="~/myUploads/@item.Users.Photo" style="height:50px;width:50px;display:block,inline" class="img-circle" />
+        }
+        @*显示用户名*@
+        <p style="font-size:20px;display:inline;">
+            @Html.DisplayFor(modelItem => item.Users.UserName)
+        </p>
+        <br />
+        @*显示动态内容*@
+        <p style="font-size:25px;margin-left:50px;">
+            @Html.DisplayFor(modelItem => item.Body)
+        </p>
+        @*显示动态图片*@
+        <p style="margin-left:50px;">
+            @if (item.Photo != "" && item.Photo != null)
+            {
+                <img src="~/myUploads/@item.Photo" style="height:300px;display:block,inline;" />
+            }
+            @if (item.Photo == "" || item.Photo == null)
+            {
+                @Html.DisplayFor(modelItem => item.Photo)
+            }
+        </p>
+        <div style="font-size:18px;margin-left:50px;">
+            <p style="display:inline">
+                @*显示动态评论数*@
+                <img style="display:inline;height:20px;" src="~/myUploads/comments.png" />
+                @Html.DisplayFor(modelItem => item.CommentsNumber)
+            </p>
+            <p style="display:inline;margin-left:20px;">
+                @*显示动态点赞数*@
+                <img style="display:inline;height:20px;" src="~/myUploads/likes.png" />
+                @Html.DisplayFor(modelItem => item.LikesNumber)
+            </p>
+            <p style="display:inline;margin-left:20px;">
+                @*显示动态发布时间*@
+                @Html.DisplayFor(modelItem => item.TimeStamp)
+            </p>
+            <p style="display:inline;margin-left:30px;font-size:16px;" class="btn btn-primary">
+                @*管理员可对动态进行删除操作*@
+                @Html.ActionLink("删除", "Delete", "Posts", new { id = item.Id }, htmlAttributes: new { title = "DeletePost" })
+            </p>
+        </div>
+    </div>
+}
+
+<div class="col-md-1"></div>
+<div class="col-md-11">
+    @Html.PagedListPager((IPagedList)Model, page => Url.Action("Index", new { page }))
+</div>

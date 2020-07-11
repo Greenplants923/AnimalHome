@@ -1,0 +1,6 @@
+INSERT INTO [dbo].[AspNetRoles] ([Id], [Name]) VALUES (N'f33b0a66-3925-468b-ba62-1d084b3898ad', N'Admin')
+INSERT INTO [dbo].[AspNetRoles] ([Id], [Name]) VALUES (N'a6efc736-e28b-4690-a04e-494390f93203', N'Advertiser')
+INSERT INTO [dbo].[AspNetRoles] ([Id], [Name]) VALUES (N'f737c803-5eb3-45ea-bb9a-b278fe7ade7a', N'Supervisor')
+INSERT INTO [dbo].[AspNetRoles] ([Id], [Name]) VALUES (N'e1d60597-3a41-4eb2-9b47-f775cbcf03cf', N'User')
+INSERT INTO [dbo].[AspNetRoles] ([Id], [Name]) VALUES (N'07a9ffb2-0ecb-44db-9f70-c8692c1d3bbf', N'VipUser')
+INSERT INTO [dbo].[AspNetRoles] ([Id], [Name]) VALUES (N'd1cb48a8-68f5-4e46-82c0-1df3d002fab8', N'Visitor')
